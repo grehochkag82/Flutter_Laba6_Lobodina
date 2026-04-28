@@ -11,6 +11,13 @@ class SlotMachine {} extends StatefulWidget{
 class _SlotMachineState extends State<SlotMachine>{
 
   void _spin(){
+
+    if (_coins<=0){
+      setState(() {
+        _message ='Монеты закончились';
+      });
+      return;
+    }
     setState((){
     _slot1= _symbols[_random.nextInt(_symbols.length)];
     _slot2= _symbols[_random.nextInt(_symbols.length)];
@@ -58,7 +65,7 @@ class _SlotMachineState extends State<SlotMachine>{
         ),
         SizedBox(height: 40),
         ElevatedButton(
-          onPressed: _spin,
+          onPressed: _coins >0 ? _spin: null,
           style: ElevatedButton.styleFrom(
           backgroundColor: Colors.amber,
           padding: EdgeInsets.symmetric(
@@ -75,6 +82,17 @@ class _SlotMachineState extends State<SlotMachine>{
           ),
         ),
       ),
+      SizedBox( height: 12),
+      TextButton(
+        onPressed: _reset, 
+        child: Text(
+          'Начать заново',
+          style: TextStyle(
+            color: Colors.white70,
+            fontSize: 16,
+          ),
+        ),
+        ),
       ],
     );
   }
@@ -92,4 +110,13 @@ class _SlotMachineState extends State<SlotMachine>{
   var _slot3 = 'assets/images/seven.png';
   var _message='';
   
+  void _reset(){
+    setState((){
+      _coins =10;
+      _slot1 = 'assets/images/cherry.png';
+      _slot2 = 'assets/images/lemon.png';
+      _slot3 = 'assets/images/seven.png';
+      _message='';
+    });
+  }
 }
